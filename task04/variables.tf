@@ -78,3 +78,8 @@ variable "vm_password" {
   description = "Admin password for the VM"
   sensitive   = true
 }
+
+variable "nic_ip_config_name" {
+  type        = string
+  description = "Name of the IP configuration for NIC"
+}

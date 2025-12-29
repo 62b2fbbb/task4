@@ -32,7 +32,7 @@ resource "azurerm_public_ip" "pip" {
 }
 
 resource "azurerm_network_interface" "nic" {
-  name                = var.nic_name
+  name                = var.nic_ip_config_name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
