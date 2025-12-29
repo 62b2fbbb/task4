@@ -118,7 +118,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   tags = { Creator = var.student_email }
 
   # --- Provisioner: Installing Nginx ---
-  provisioner "remote-exec" {
+provisioner "remote-exec" {
     connection {
       type     = "ssh"
       user     = self.admin_username
@@ -127,8 +127,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
 
     inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y nginx",
+      "sleep 30", 
+      "sudo apt-get update -qq",
+      "sudo apt-get install -y -qq nginx",
       "sudo systemctl start nginx",
       "sudo systemctl enable nginx"
     ]
