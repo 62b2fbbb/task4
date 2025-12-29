@@ -1,4 +1,4 @@
-location          = "East US"
+location          = "West Europe"
 rg_name           = "cmaz-5mhifrjl-mod4-rg"
 vnet_name         = "cmaz-5mhifrjl-mod4-vnet"
 subnet_name       = "frontend"
@@ -10,7 +10,7 @@ public_ip_name    = "cmaz-5mhifrjl-mod4-pip"
 domain_name_label = "cmaz-5mhifrjl-mod4-nginx"
 vm_name           = "cmaz-5mhifrjl-mod4-vm"
 
-vm_os_version = "latest"
+vm_os_version = "ubuntu-24_04-lts"
 
 vm_sku             = "Standard_B2s_v2"
 student_email      = "zakhar_saprun@epam.com"
