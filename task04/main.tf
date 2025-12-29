@@ -103,6 +103,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
     azurerm_network_interface.nic.id,
   ]
 
+  depends_on = [
+    azurerm_network_interface_security_group_association.nic_nsg
+  ]
+  # --------------------------------------
+
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
@@ -117,7 +122,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   tags = { Creator = var.student_email }
 
-  # --- Provisioner: Installing Nginx ---
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
@@ -127,11 +131,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
 
     inline = [
-      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do sleep 1; done",
+      "sleep 30",
 
-      "sudo apt-get update -y > /dev/null 2>&1",
+      "sudo apt-get update -y -qq > /dev/null 2>&1 || true",
 
-      "sudo apt-get install -y nginx > /dev/null 2>&1",
+      "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx > /dev/null 2>&1",
 
       "sudo systemctl start nginx",
       "sudo systemctl enable nginx"
