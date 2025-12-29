@@ -14,7 +14,6 @@ resource "azurerm_virtual_network" "vnet" {
   tags                = { Creator = var.student_email }
 }
 
-# Subnet (Standalone Resource)
 resource "azurerm_subnet" "subnet" {
   name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.rg.name
@@ -53,7 +52,6 @@ resource "azurerm_network_security_group" "nsg" {
   tags                = { Creator = var.student_email }
 }
 
-# NSG Rules (Standalone Resources)
 resource "azurerm_network_security_rule" "ssh" {
   name                        = var.nsg_rule_ssh
   priority                    = 100
@@ -82,7 +80,6 @@ resource "azurerm_network_security_rule" "http" {
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
-# Association (Connecting NIC to NSG)
 resource "azurerm_network_interface_security_group_association" "nic_nsg" {
   network_interface_id      = azurerm_network_interface.nic.id
   network_security_group_id = azurerm_network_security_group.nsg.id
@@ -106,7 +103,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   depends_on = [
     azurerm_network_interface_security_group_association.nic_nsg
   ]
-  # --------------------------------------
 
   os_disk {
     caching              = "ReadWrite"
@@ -115,8 +111,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    offer     = "ubuntu-24_04-lts"
+    sku       = "server"
     version   = var.vm_os_version
   }
 
@@ -131,12 +127,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
 
     inline = [
-      "sleep 30",
-
+      "sleep 60",
       "sudo apt-get update -y -qq > /dev/null 2>&1 || true",
-
       "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx > /dev/null 2>&1",
-
       "sudo systemctl start nginx",
       "sudo systemctl enable nginx"
     ]
