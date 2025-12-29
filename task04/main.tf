@@ -127,11 +127,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
 
     inline = [
-      "sleep 60",
+      "sleep 300",
 
-      "sudo apt-get update -y > /dev/null 2>&1",
+      "sudo apt-get update -qq > /dev/null",
 
-      "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nginx > /dev/null 2>&1",
+      "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx > /dev/null",
 
       "sudo systemctl start nginx",
       "sudo systemctl enable nginx"
